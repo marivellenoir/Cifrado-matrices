@@ -88,6 +88,7 @@ function inverse(M) {
 
 }
 
+HEAD
 console.log(multiply([[1, 2], [3, 4]], [[5, 6], [7, 8]])); // debería imprimir [[19, 22], [43, 50]]
 console.log(determinant([[1, 2], [3, 4]])); // debería imprimir -2
 console.log(inverse([[1, 2], [3, 4]])); // debería imprimir [[-2, 1], [1.5, -0.5]]
