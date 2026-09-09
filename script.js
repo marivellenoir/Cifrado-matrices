@@ -91,3 +91,163 @@ function inverse(M) {
 console.log(multiply([[1, 2], [3, 4]], [[5, 6], [7, 8]])); // debería imprimir [[19, 22], [43, 50]]
 console.log(determinant([[1, 2], [3, 4]])); // debería imprimir -2
 console.log(inverse([[1, 2], [3, 4]])); // debería imprimir [[-2, 1], [1.5, -0.5]]
+
+// Tabla Codoficacion
+const CHAR_TO_NUM = {
+  'A':1,'B':2,'C':3,'D':4,'E':5,'F':6,'G':7,'H':8,'I':9,'J':10,
+  'K':11,'L':12,'M':13,'N':14,'O':15,'P':16,'Q':17,'R':18,'S':19,
+  'T':20,'U':21,'V':22,'W':23,'X':24,'Y':25,'Z':26,' ':0,'.':27,',':28
+};
+
+// Pasa de número a letra
+const NUM_TO_CHAR = {};
+for (let letra in CHAR_TO_NUM) {
+  let numero = CHAR_TO_NUM[letra];
+  NUM_TO_CHAR[numero] = letra;
+}
+
+// Convierte un mensaje de texto en una lista de números
+function textToNumbers(texto) {
+  let mayusculas = texto.toUpperCase();
+  let numeros = [];
+  for (let i = 0; i < mayusculas.length; i++) {
+    let letra = mayusculas[i];
+    if (letra in CHAR_TO_NUM) {
+      numeros.push(CHAR_TO_NUM[letra]);
+    }
+  }
+  return numeros;
+}
+
+// Convierte una lista de números de vuelta a texto
+function numbersToText(numeros) {
+  let texto = "";
+  for (let i = 0; i < numeros.length; i++) {
+    let numero = numeros[i];
+    if (numero in NUM_TO_CHAR) {
+      texto += NUM_TO_CHAR[numero];
+    }
+  }
+  return texto;
+}
+
+// Acomoda una lista de números en una matriz de "filas" filas
+// Rellena con ceros si faltan espacios
+function chunkIntoMatrix(numeros, filas) {
+  let columnas = Math.ceil(numeros.length / filas);
+  let listaCompleta = numeros.slice(); // copia la lista
+  while (listaCompleta.length < filas * columnas) {
+    listaCompleta.push(0);
+  }
+
+  let matriz = [];
+  for (let i = 0; i < filas; i++) {
+    let fila = [];
+    for (let j = 0; j < columnas; j++) {
+      fila.push(listaCompleta[i * columnas + j]);
+    }
+    matriz.push(fila);
+  }
+  return matriz;
+}
+
+// Convierte una matriz de vuelta a una sola lista de números
+function flattenMatrix(matriz) {
+  let numeros = [];
+  for (let i = 0; i < matriz.length; i++) {
+    for (let j = 0; j < matriz[i].length; j++) {
+      numeros.push(matriz[i][j]);
+    }
+  }
+  return numeros;
+}
+
+// Calcula la matriz inversa usando cofactores(se usa para desencriptar)
+function calcularInversa(M) {
+  let n = M.length;
+  let det = calcularDeterminante(M);
+
+  let matrizCofactores = [];
+  for (let i = 0; i < n; i++) {
+    let fila = [];
+    for (let j = 0; j < n; j++) {
+      let subMatriz = obtenerSubMatriz(M, i, j);
+      let signo = ((i + j) % 2 === 0) ? 1 : -1;
+      fila.push(signo * calcularDeterminante(subMatriz));
+    }
+    matrizCofactores.push(fila);
+  }
+
+  // La inversa es la transpuesta de los cofactores, dividida entre el determinante
+  let inversa = [];
+  for (let i = 0; i < n; i++) {
+    let fila = [];
+    for (let j = 0; j < n; j++) {
+      fila.push(matrizCofactores[j][i] / det);
+    }
+    inversa.push(fila);
+  }
+  return inversa;
+}
+
+// Llena la tabla de codificación automáticamente
+function buildCodeTable() {
+  let tabla = document.getElementById("tablaCodigos");
+  for (let letra in CHAR_TO_NUM) {
+    let fila = document.createElement("tr");
+
+    let celdaLetra = document.createElement("td");
+    celdaLetra.textContent = (letra === " ") ? "espacio" : letra;
+
+    let celdaNumero = document.createElement("td");
+    celdaNumero.textContent = CHAR_TO_NUM[letra];
+
+    fila.appendChild(celdaLetra);
+    fila.appendChild(celdaNumero);
+    tabla.appendChild(fila);
+  }
+}
+
+// Botón "Encriptar"
+document.getElementById("btnEncriptar").addEventListener("click", function() {
+  let mensaje = document.getElementById("mensajeTexto").value;
+  let numeros = textToNumbers(mensaje);
+
+  let M = readMatrix(); // función de Persona A: lee la matriz clave
+  let filas = M.length;
+
+  if (calcularDeterminante(M) === 0) {
+    document.getElementById("resultadoEncriptado").textContent =
+      "La matriz clave no es invertible. Cambia sus valores.";
+    return;
+  }
+
+  let matrizMensaje = chunkIntoMatrix(numeros, filas);
+  let matrizCifrada = multiplicarMatrices(M, matrizMensaje);
+  let resultado = flattenMatrix(matrizCifrada);
+
+  document.getElementById("resultadoEncriptado").textContent = resultado.join(", ");
+});
+
+// Botón "Desencriptar"
+document.getElementById("btnDesencriptar").addEventListener("click", function() {
+  let texto = document.getElementById("numerosCifrados").value;
+  let numeros = texto.split(",").map(function(n) { return parseFloat(n.trim()); });
+
+  let M = readMatrix();
+  let filas = M.length;
+  let Minversa = calcularInversa(M);
+
+  let matrizCifrada = chunkIntoMatrix(numeros, filas);
+  let matrizOriginal = multiplicarMatrices(Minversa, matrizCifrada);
+
+  // Redondeamos 
+  let numerosRedondeados = flattenMatrix(matrizOriginal).map(function(n) {
+    return Math.round(n);
+  });
+
+  document.getElementById("resultadoDesencriptado").textContent = numbersToText(numerosRedondeados);
+});
+
+// Llenamos la tabla de codificación
+buildCodeTable();
