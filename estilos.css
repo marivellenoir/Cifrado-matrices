@@ -192,8 +192,20 @@ select {
     border: 1px solid var(--border);
     border-radius: 4px;
 
-
 }
+
+/* Quita las flechitas del input number en Chrome, Edge y Safari */
+.matriz-grid input::-webkit-outer-spin-button,
+.matriz-grid input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Quita las flechitas del input number en Firefox */
+.matriz-grid input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 
 /* diseño del estado del determinante y el boton de generar matriz invertible */
 
@@ -206,6 +218,7 @@ select {
     border: 1px solid var(--border);
     border-radius: 4px;
     margin-bottom: 14px;
+    text-align: center;
 
 }
 
