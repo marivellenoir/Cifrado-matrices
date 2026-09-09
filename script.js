@@ -174,8 +174,9 @@ document.getElementById("btnEncriptar").addEventListener("click", function() {
   let mensaje = document.getElementById("mensajetexto").value;
   let numeros = textToNumbers(mensaje);
 
-  let M = readMatrix(); // función de Persona A: lee la matriz clave
-  let filas = M.length;
+  let n = parseInt(document.getElementById("tamano-matriz").value);
+ let M = readMatrix(n);
+   let filas = M.length;
 
   if (determinant(M) === 0) {
     document.getElementById("resultadoEncriptado").textContent =
@@ -195,7 +196,14 @@ document.getElementById("btnDesencriptar").addEventListener("click", function() 
   let texto = document.getElementById("numeroscifrados").value;
   let numeros = texto.split(",").map(function(n) { return parseFloat(n.trim()); });
 
-  let M = readMatrix();
+  let n = parseInt(document.getElementById("tamano-matriz").value);
+  let M = readMatrix(n);
+
+  if (determinant(M) === 0) {
+    document.getElementById("resultadoEncriptado").textContent =
+      "La matriz clave no es invertible. Cambia sus valores.";
+    return;
+  }
   let filas = M.length;
   let Minversa = inverse(M);
 
