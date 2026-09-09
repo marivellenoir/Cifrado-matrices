@@ -1,79 +1,123 @@
 
-/* Cada tarjeta se ve como una caja separada */
-section {
-  background-color: #2a2d35;
-  border-radius: 8px;
-  padding: 16px;
+.card-encriptar,
+.card-desencriptar,
+.card-tabla {
   margin-bottom: 20px;
   max-width: 500px;
 }
 
-/* Los títulos de cada tarjeta */
-section h2 {
-  color: #f0f0f0;
-  margin-top: 0;
-}
-
 /* La etiqueta que dice "Escribe tu mensaje" */
-label {
+.card-encriptar label,
+.card-desencriptar label {
   display: block;
-  color: #cccccc;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-sub);
+  text-transform: uppercase;
   margin-bottom: 6px;
-  font-size: 14px;
 }
 
 /* Las cajas de texto donde escribe el usuario */
-textarea {
+.card-encriptar textarea,
+.card-desencriptar textarea {
   width: 100%;
   min-height: 70px;
   padding: 10px;
-  border: 1px solid #555;
+  border: 1px solid var(--border);
   border-radius: 4px;
-  background-color: #1c1e24;
-  color: #ffffff;
-  font-size: 14px;
+  background-color: var(--bg-input);
+  color: var(--text-main);
+  font-family: var(--mono);
+  font-size: 0.9rem;
   resize: vertical;
 }
 
-/* Los botones */
-button {
+/* Botón de copiar, distinto al .btn-main: fondo transparente, solo borde */
+.btn-outline {
+  width: 100%;
   margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #3c6e6b;
-  color: #ffffff;
-  border: none;
+  padding: 11px 18px;
+  font-family: var(--serif);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid var(--accent);
   border-radius: 4px;
+  background-color: transparent;
+  color: var(--accent);
   cursor: pointer;
-  font-size: 14px;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-/* Cuando el mouse pasa encima del botón */
-button:hover {
-  background-color: #2c5250;
+.btn-outline:hover {
+  background-color: var(--accent);
+  color: #1c1e24;
 }
 
-/* Donde se muestra el resultado (texto o números) */
-p {
-  margin-top: 12px;
-  padding: 10px;
-  background-color: #1c1e24;
-  border: 1px dashed #555;
+/* Control segmentado (para alternar opciones, ej. tipo de codificación) */
+.segmented {
+  display: flex;
+  border: 1px solid var(--border);
   border-radius: 4px;
-  color: #f0f0f0;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.segmented button {
+  flex: 1;
+  padding: 8px;
+  background-color: var(--bg-input);
+  color: var(--text-sub);
+  border: none;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.segmented button.active {
+  background-color: var(--accent);
+  color: #1c1e24;
+  font-weight: 600;
+}
+
+/* Caja de resultado (renombrada de .resultado-texto a .output según la guía) */
+.output {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: var(--bg-input);
+  border: 1px dashed var(--border);
+  border-radius: 4px;
+  color: var(--text-main);
+  font-family: var(--mono);
   word-wrap: break-word;
 }
 
 /* La tabla de códigos */
-table {
+.card-tabla table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
+  background-color: var(--bg-input);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.card-tabla table td,
+.card-tabla table th {
+  border: 1px solid var(--border);
+  padding: 8px 5px;
+  text-align: center;
+  color: var(--text-main);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+}
+.card-tabla table th {
+  background-color: var(--bg-card);
+  color: var(--accent);
 }
 
-table td {
-  border: 1px solid #555;
-  padding: 5px;
-  text-align: center;
-  color: #f0f0f0;
-  font-size: 13px;
+/* Tarjeta del video (faltaba en tu parte) */
+.card-video iframe,
+.card-video video {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid var(--border);
 }
