@@ -8,7 +8,7 @@
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 20px;
-  max-width: 500px;
+  width: 100%;
 }
 
 /* La etiqueta que dice "Escribe tu mensaje" */
@@ -97,6 +97,15 @@
 }
 
 /* La tabla de códigos */
+.contenedor-tabla {
+    display: none;
+    margin-top: 14px;
+    overflow-x: auto;
+}
+
+.contenedor-tabla.show {
+    display: block;
+}
 .card-tabla table {
   width: 100%;
   border-collapse: collapse;
@@ -126,7 +135,7 @@
   border-radius: 4px;
   border: 1px solid var(--border);
 }
-=======
+
 /* Estilos para color y fuentes de todo el documento */
 
 :root {

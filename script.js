@@ -62,7 +62,6 @@ function inverse(M) {
         cofactores.push([]);
         for (let j = 0 ; j<n; j++) {
             let signo = ((i + j) % 2 === 0) ? 1 : -1;
-            const signo = Math.pow(-1,i+j);
             cofactores[i][j] = signo * determinant(menor(M, i, j));
         } 
     } 
@@ -75,10 +74,10 @@ const CHAR_TO_NUM = {
   'A':1,'B':2,'C':3,'D':4,'E':5,'F':6,'G':7,'H':8,
   'I':9,'J':10,'K':11,'L':12,'M':13,'N':14,'Ñ':15,'O':16,
   'P':17,'Q':18,'R':19,'S':20,'T':21,'U':22,'V':23,'X':24,
-  'Y':25,'Z':26,'W':40,' ':0,'-':27,',':28,'Á':29,'É':30,
+  'Y':25,'Z':26,'W':40,' ':0,'.':27,',':28,'Á':29,'É':30,
   'Í':31,'Ó':32,'"':33,';':34,':':35,'¡':36,'!':37,'¿':38,
   '?':39,'Ú':41,'0':42,'1':43,'2':44,'3':45,'4':46,'5':47,
-  '6':48,'7':49,'8':50,'9':51
+  '6':48,'7':49,'8':50,'9':51,'-':52
 };
 
 const NUM_TO_CHAR = {};
@@ -174,6 +173,15 @@ function buildCodeTable() {
   }
 }
 
+//Boton para mostrar/ocultar tabla de codificacion
+const btnToggleTabla = document.getElementById("btnToggleTabla");
+const contenedorTabla = document.getElementById("contenedorTabla");
+
+btnToggleTabla.addEventListener("click", () => {
+    const visible = contenedorTabla.classList.toggle("show");
+    btnToggleTabla.textContent = visible ? "Ocultar Tabla" : "Mostrar Tabla";
+});
+
 // Botón "Encriptar"
 document.getElementById("btnEncriptar").addEventListener("click", function() {
   let mensaje = document.getElementById("mensajetexto").value;
@@ -233,7 +241,7 @@ document.getElementById("btnCopiarDesencriptado").addEventListener("click", func
 
 // Llenamos la tabla de codificación
 buildCodeTable();
-=======
+
 // matriz predeterminada 
 
 function defaultMatrix(n) {
