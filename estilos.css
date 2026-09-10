@@ -84,7 +84,7 @@ header h1 {
     color: var(--text-muted);
     font-style: italic;
     padding: 16px 20px 0;
-
+    margin-bottom: 14px;
 
 }
 
@@ -94,6 +94,7 @@ header h1 {
     display: grid;
     grid-template-columns: 300px 1fr;
     gap: 24px;
+    
     align-items: start;
 }
 
