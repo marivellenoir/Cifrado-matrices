@@ -204,7 +204,7 @@ document.getElementById("btnDesencriptar").addEventListener("click", function() 
   let M = readMatrix(n);
 
   if (determinant(M) === 0) {
-    document.getElementById("resultadoEncriptado").textContent =
+    document.getElementById("resultadoDesencriptado").textContent =
       "La matriz clave no es invertible. Cambia sus valores.";
     return;
   }
