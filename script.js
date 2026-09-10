@@ -62,6 +62,7 @@ function inverse(M) {
         cofactores.push([]);
         for (let j = 0 ; j<n; j++) {
             let signo = ((i + j) % 2 === 0) ? 1 : -1;
+            const signo = Math.pow(-1,i+j);
             cofactores[i][j] = signo * determinant(menor(M, i, j));
         } 
     } 
@@ -232,3 +233,132 @@ document.getElementById("btnCopiarDesencriptado").addEventListener("click", func
 
 // Llenamos la tabla de codificación
 buildCodeTable();
+=======
+// matriz predeterminada 
+
+function defaultMatrix(n) {
+
+    const matriz = [];
+    for (let i =0; i < n; i++) {
+        const fila =[];
+        for(let j = 0; j <n; j++) {
+        fila.push(i===j ? 1 : 0); // pone 1 en la diagonal y 0 en el resto de espacios.
+        
+    }
+        matriz.push(fila)
+    }
+
+return matriz;
+}
+
+
+
+// dibujar la cuadricula en la pagina.
+
+function buildMatrixGrid(n, valores) {
+
+    const grid = document.getElementById("matriz-grid");
+    grid.innerHTML = "" // limpia la tabla construida anteriormente 
+    grid.style.gridTemplateColumns = `repeat(${n}, 1fr)` // n columnas iguales
+
+    for(let i=0; i<n; i++){
+        for (let j=0; j<n; j++) {
+
+            const input = document.createElement("input");
+            input.type = "number";
+            input.className = "celda-matriz";
+            input.dataset.fila = i;
+            input.dataset.col = j;
+            input.value = valores [i][j];
+            input.addEventListener("input",() => updateDetFlag(n)); // para que recalcule cada vez que el usuario cambie los numeros manualmente.
+            grid.appendChild(input);
+
+        }
+
+    }
+}
+
+// funcion para que la pagina lea lo que el usuario escribe en la matriz M
+
+function readMatrix(n) {
+
+    const inputs = document.querySelectorAll(".celda-matriz");
+    const matriz = [];
+    for (let i=0 ; i<n ; i++ ) {
+        matriz.push(new Array(n).fill(0));
+    }
+
+    inputs.forEach(input => {
+        const fila = parseInt(input.dataset.fila);
+        const col = parseInt(input.dataset.col);
+        matriz [fila][col] = parseFloat(input.value) || 0;
+    });
+    
+    return matriz;
+}
+
+// funcion que muestra si la matriz es invertible
+
+function updateDetFlag (n) {
+    const matriz = readMatrix(n);
+    const det = determinant(matriz);
+    const estado = document.getElementById("det-status");
+
+    if (det === 0){
+        estado.textContent = `det(M) = ${det.toFixed(2)} - No Invertible`;
+        estado.className = "det-status bad";
+    } 
+        else {
+        estado.textContent = `det(M) = ${det.toFixed(2)} - Invertible`;
+        estado.className = "det-status ok";
+
+    }
+
+}
+
+// crear la matriz aleatoria invertible
+
+function randomInvertibleMatrix (n) {
+    let matriz;
+    let intentos = 0;
+
+    do{
+        matriz = [];
+        for (let i = 0; i<n; i++) {
+            const fila =[];
+            for (let j = 0; j < n; j++) {
+                fila.push(Math.floor(Math.random() * 19)-9); //genera numeros entre -9 y 9
+            }
+
+            matriz.push(fila);
+        }
+
+        intentos++;
+    
+    } while (determinant(matriz)=== 0 && intentos < 100);
+
+    return matriz;
+}
+
+// instrucciones para conectar todas las funciones y ejecuta el codigo en la pagina.
+
+const selectorTamano = document.getElementById("tamano-matriz");
+const botonGenerar = document.getElementById("btn-generar-matriz");
+
+function iniciarMatriz () {
+    const n = parseInt(selectorTamano.value);
+    buildMatrixGrid(n, defaultMatrix(n));
+    updateDetFlag(n);
+
+}
+
+selectorTamano.addEventListener("change",iniciarMatriz);
+
+botonGenerar.addEventListener("click", () =>{
+    const n = parseInt(selectorTamano.value);
+    const nuevaMatriz = randomInvertibleMatrix(n);
+    buildMatrixGrid(n, nuevaMatriz);
+    updateDetFlag(n);
+});
+
+iniciarMatriz(); // dibuja la matriz por defecto al cargar la pagina.
