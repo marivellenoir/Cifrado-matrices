@@ -2,19 +2,98 @@
 <html lang="es">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Secretos en Matrices</title>
         <link rel="stylesheet" href="estilos.css">
     </head>
     <body>
         <header>
-            Secretos de Matrices: El arte de ocultar mensajes
+
+            <h1>Secretos de Matrices: El arte de ocultar mensajes</h1>
+            <span class = "badge" > Cifrado con Álgebra Lineal </span>
+
         </header>
 
+        <p class = "descripcion" > Olvida la teoría aburrida. Acompañanos en esta demostración rápida donde ponemos a prueba el poder de las matrices invertibles para cifrar y descifrar  textos en tiempo real. <br>¡Mira la magia del Álgebra Lineal en movimiento!  
+        </p>
+
+        <!-- contenedor que agrupa todo -->
+        
+        <div.class = "dashboard-contenedor">
 
         <main>
             <!-- Cuerpo del proyecto -->
 
         </main>
+
+
+        <aside>
+            <div class = "card matriz-clave">
+                <h2>Matriz Clave (M)</h2>
+                <p class= "subtitulo" >Define la transformación lineal que se utilizará para cifrar el mensaje.</p>
+                
+                <label for="tamano-matriz"> Tamaño de la matriz: </label>
+                <select id="tamano-matriz">
+                    <option value = "2" >2 x 2</option>
+                    <option value = "3" >3 x 3</option>
+                    <option value = "4" >4 x 4</option>
+                    <option value = "5" >5 x 5</option>
+                    <option value = "6" >6 x 6</option>
+
+                </select>
+
+                <div id = "matriz-grid" class = "matriz-grid">
+                    <!--espacio para que javascript genere la matriz --> 
+
+                </div>
+
+            <button id = "btn-generar-matriz" class = "btn-main">Generar Matriz Invertible</button>
+
+            <p id = "det-status" class="det-status">
+
+                <!--espacio para que javascript muestre si es invertible o no-->
+
+            </p>
+
+            </div>
+
+            <div class = "card fundamento-matematico">
+                <h2>Fundamento Matemático</h2>
+
+                <div class="proceso">
+                    <p class="subtitulo-proceso"><strong>Proceso de Cifrado:</strong></p>
+
+                    <div class = "formula-box">
+                        C = M · P
+                      
+                    </div>
+
+                    <p class="texto-formula">Donde <strong>P</strong> es el vector de texto plano y <strong>M</strong> la matriz clave.</p>
+                </div>
+
+                <div class="proceso">
+                    <p class="subtitulo-proceso"><strong>Proceso de Descifrado:</strong></p>
+
+                    <div class = "formula-box">
+                    
+                        P = M<sup>-1</sup> · C
+                      
+                    </div>
+
+                    <p class="texto-formula">Requiere que <strong>det(M) ≠ 0</strong> para garantizar la existencia de la inversa.</p>
+                
+                    
+                </div>
+
+                
+                
+            </div>
+
+
+        </aside>
+
+        </div.class>
+
 
 
         <script src="script.js"></script>
